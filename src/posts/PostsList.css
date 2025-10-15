@@ -1,0 +1,50 @@
+.post-container {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-post-card,
+.post-card {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.add-post-card input,
+.add-comment input {
+  width: 80%;
+  padding: 6px;
+  margin-right: 8px;
+}
+
+.add-post-card button,
+.add-comment button {
+  padding: 6px 12px;
+}
+
+.post-text {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.comments-list {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.comment-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-bottom: 5px;
+}
+
+.add-comment {
+  display: flex;
+  align-items: center;
+}
