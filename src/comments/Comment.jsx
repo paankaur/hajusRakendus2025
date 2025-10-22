@@ -8,6 +8,7 @@ const Comment = ({ postId, onAddComment }) => {
     if (!text.trim()) return;
     onAddComment(postId, text);
     setText("");
+    console.log("comment posted")
   };
 
   return (

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Post.css";
 import PostsList from "./PostsList";
 
-const API_URL = "http://localhost:5000/posts";
+const API_URL = "http://localhost:5001/posts";
+const COMMENTS_API = "http://localhost:5002/posts";
 
 const Post = () => {
   const [text, setText] = useState("");
@@ -14,12 +15,22 @@ const Post = () => {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-      // Ensure every post has a comments array
-      const normalized = data.map((post) => ({
-        ...post,
-        comments: post.comments || [],
-      }));
-      setPosts(normalized);
+      const postsWithComments = await Promise.all(
+        data.map(async (post) => {
+          try {
+            const r = await fetch(`${COMMENTS_API}/${post.id}/comments`);
+            if (r.ok) {
+              const comments = await r.json();
+              return { ...post, comments: comments || [] };
+            }
+          } catch (e) {
+            console.error("Failed to fetch comments for post", post.id, e);
+          }
+          return { ...post, comments: post.comments || [] };
+        })
+      );
+
+      setPosts(postsWithComments);
     } catch (err) {
       console.error("Failed to fetch posts:", err);
     }
@@ -43,6 +54,7 @@ const Post = () => {
       if (res.ok) {
         setPosts((prev) => [...prev, data]);
         setText("");
+        console.log("posting a post")
       } else {
         console.error("Error adding post:", data.error);
       }

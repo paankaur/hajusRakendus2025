@@ -3,7 +3,7 @@ import CommentsList from "../comments/CommentsList";
 import CommentForm from "../comments/Comment"; 
 import "./PostsList.css";
 
-const API_URL = "http://localhost:5000/posts";
+const API_URL = "http://localhost:5002/posts";
 
 const PostsList = ({ posts, setPosts }) => {
   const addComment = async (postId, text) => {
