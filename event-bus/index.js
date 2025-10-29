@@ -17,9 +17,8 @@ app.post("/events", async (req, res) => {
   // Broadcast to all other services
   try {
     await axios.post("http://localhost:5001/events", event); // posts service
-    // If you later have other services, send to them too:
-     await axios.post("http://localhost:5002/events", event); // comments service
-   //  await axios.post("http://localhost:5004/events", event); // query service
+    await axios.post("http://localhost:5002/events", event); // comments service
+    await axios.post("http://localhost:5004/events", event); // query service
   } catch (err) {
     console.error("Error broadcasting event:", err.message);
   }
@@ -32,5 +31,5 @@ app.get("/events", (req, res) => {
   res.json(events);
 });
 
-const PORT = 5003;
+const PORT = 5003;                                            // Event Bus port
 app.listen(PORT, () => console.log(`Event Bus running on port ${PORT}`));

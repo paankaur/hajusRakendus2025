@@ -8,7 +8,6 @@ const COMMENTS_API = "http://localhost:5002/posts";
 const Post = () => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  
 
   // Fetch posts from server
   const fetchPosts = async () => {
@@ -54,7 +53,7 @@ const Post = () => {
       if (res.ok) {
         setPosts((prev) => [...prev, data]);
         setText("");
-        console.log("posting a post")
+        console.log("posting a post");
       } else {
         console.error("Error adding post:", data.error);
       }
@@ -93,7 +92,6 @@ const Post = () => {
       </div>
 
       <PostsList posts={posts} setPosts={setPosts} />
-   
     </div>
   );
 };

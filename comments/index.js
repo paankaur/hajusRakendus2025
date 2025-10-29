@@ -14,7 +14,7 @@ app.post("/posts/:postId/comments", (req, res) => {
   const { postId } = req.params;
   const { text } = req.body;
 
-  const comment = { id: postId, text: text.trim() };
+  const comment = { id: Date.now(), postId, text: text.trim() };
   comments.push(comment);
 
   axios
@@ -35,7 +35,7 @@ app.post("/posts/:postId/comments", (req, res) => {
 app.get("/posts/:postId/comments", (req, res) => {
   const { postId } = req.params;
 
-  res.json(comments.filter((c) => c.id === postId));
+  res.json(comments.filter((c) => c.postId === postId));
   console.log(comments);
 });
 // Receive events
