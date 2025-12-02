@@ -48,4 +48,4 @@ app.post("/events", (req, res) => {
 });
 
 const PORT = 5002;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Comments Server running on port ${PORT}`));

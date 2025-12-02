@@ -62,4 +62,4 @@ app.delete("/posts", (req, res) => {
 });
 
 const PORT = 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Posts Server running on port ${PORT}`));
