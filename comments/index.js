@@ -18,7 +18,7 @@ app.post("/posts/:postId/comments", (req, res) => {
   comments.push(comment);
 
   axios
-    .post("http://localhost:5003/events", {
+    .post("http://localhost:5003/events", { // Event Bus URL
       type: "CommentCreated",
       data: comment,
     })

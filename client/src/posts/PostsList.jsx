@@ -3,12 +3,12 @@ import CommentsList from "../comments/CommentsList";
 import CommentForm from "../comments/Comment"; 
 import "./PostsList.css";
 
-const API_URL = "http://localhost:5002/posts"; //this 
+const API_URL = "http://localhost:5004/posts"; // use Query service
 
 const PostsList = ({ posts, setPosts }) => {
   const addComment = async (postId, text) => {
     try {
-      const res = await fetch(`${API_URL}/${postId}/comments`, { //this
+      const res = await fetch(`${API_URL}/${postId}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
@@ -18,13 +18,13 @@ const PostsList = ({ posts, setPosts }) => {
       if (res.ok) {
         setPosts((prev) =>
           prev.map((post) =>
-            post.id === postId
-              ? { ...post, comments: [...post.comments, data] }
+            String(post.id) === String(postId)
+              ? { ...post, comments: [...(post.comments || []), data] }
               : post
           )
         );
       } else {
-        console.error("Error adding comment:", data.error);
+        console.error("Error adding comment:", data && data.error);
       }
     } catch (err) {
       console.error("Fetch error:", err);
