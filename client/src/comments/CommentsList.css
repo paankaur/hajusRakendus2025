@@ -48,3 +48,6 @@
   display: flex;
   align-items: center;
 }
+.comment {
+    border-bottom: gray 1px solid;
+}

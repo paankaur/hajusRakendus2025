@@ -1,7 +1,7 @@
 import React from "react";
-import CommentsList from "../comments/CommentsList";
-import CommentForm from "../comments/Comment"; 
 import "./PostsList.css";
+import CommentsList from "../comments/CommentsList";
+import CommentForm from "../comments/Comment";
 
 const API_URL = "http://localhost:5004/posts"; // use Query service
 
@@ -16,13 +16,19 @@ const PostsList = ({ posts, setPosts }) => {
       const data = await res.json();
 
       if (res.ok) {
-        setPosts((prev) =>
-          prev.map((post) =>
-            String(post.id) === String(postId)
-              ? { ...post, comments: [...(post.comments || []), data] }
-              : post
-          )
-        );
+        // Refetch from Query after a short delay to get moderated status
+        setTimeout(async () => {
+          try {
+            const refreshRes = await fetch(API_URL);
+            const updatedPosts = await refreshRes.json();
+            const postsArray = Array.isArray(updatedPosts)
+              ? updatedPosts
+              : Object.values(updatedPosts || {});
+            setPosts(postsArray);
+          } catch (err) {
+            console.error("Failed to refetch posts:", err);
+          }
+        }, 500); // wait 500ms for moderation to complete
       } else {
         console.error("Error adding comment:", data && data.error);
       }
@@ -36,7 +42,7 @@ const PostsList = ({ posts, setPosts }) => {
       {posts.map((post) => (
         <div key={post.id} className="post-card">
           <p className="post-text">{post.text}</p>
-          <CommentsList comments={post.comments} />
+          <CommentsList comments={post.comments || []} />
           <CommentForm postId={post.id} onAddComment={addComment} />
         </div>
       ))}

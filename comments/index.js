@@ -38,6 +38,14 @@ app.get("/posts/:postId/comments", (req, res) => {
   res.json(comments.filter((c) => c.postId === postId));
   console.log(comments);
 });
+
+// Delete all comments
+app.delete("/comments", (req, res) => {
+  comments = [];
+  console.log("All comments deleted");
+  res.sendStatus(200);
+});
+
 // Receive events
 app.post("/events", (req, res) => {
   console.log("Received Event:", req.body);

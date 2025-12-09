@@ -58,7 +58,12 @@ const Post = () => {
   const resetPosts = async () => {
     setPosts([]); // clear frontend immediately
     try {
-      await fetch(POSTS_URL, { method: "DELETE" });
+      await Promise.all([
+        fetch("http://localhost:5001/posts", { method: "DELETE" }), // Posts service
+        fetch("http://localhost:5002/comments", { method: "DELETE" }), // Comments service
+        fetch("http://localhost:5004/posts", { method: "DELETE" }), // Query service
+      ]);
+      console.log("All posts and comments cleared from backend");
     } catch (err) {
       console.error("Failed to reset posts:", err);
     }

@@ -40,18 +40,46 @@ app.post("/posts/:postId/comments", async (req, res) => {
 
 // Receive an event
 app.post("/events", (req, res) => {
-  if (req.body.type === "PostCreated") {
-    const { id, text } = req.body.data;
+  const { type, data } = req.body || {};
+
+  if (type === "PostCreated") {
+    const { id } = data || {};
+    const text = data?.text ?? data?.content ?? data?.body ?? "";
     posts[id] = { id, text, comments: [] };
-  } else if (req.body.type === "CommentCreated") {
-    const { id, text, postId } = req.body.data;
+  } else if (type === "CommentCreated") {
+    const { id } = data || {};
+    const postId = data?.postId ?? data?.post_id ?? data?.postID;
+    const text = data?.text ?? data?.content ?? data?.body ?? "";
     const post = posts[postId];
     if (post) {
-      post.comments.push({ id, text });
+      if (!post.comments.find((c) => c.id === id)) {
+        post.comments.push({ id, text, status: "pending" }); // add status field
+      }
+    } else {
+      console.warn("Comment for unknown postId:", postId);
+    }
+  } else if (type === "CommentModerated") {
+    const { id, postId, status } = data || {};
+    const post = posts[postId];
+    if (post) {
+      const comment = post.comments.find((c) => c.id === id);
+      if (comment) {
+        comment.status = status; // update with approved/rejected
+        console.log(`Comment ${id} marked as ${status}`);
+      }
+    } else {
+      console.warn("Moderated comment for unknown postId:", postId);
     }
   }
-  console.log(posts, "<<<<<<<<<<<<<<<<<<<");
-  res.json({});
+
+  console.log("Query posts:", JSON.stringify(posts, null, 2));
+  res.sendStatus(200);
+});
+
+app.delete("/posts", (req, res) => {
+  Object.keys(posts).forEach((key) => delete posts[key]); // clear the posts map
+  console.log("All posts and comments deleted from Query");
+  res.sendStatus(200);
 });
 
 const PORT = 5004;
