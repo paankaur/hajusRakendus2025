@@ -73,7 +73,7 @@ const Post = () => {
     <div className="post-container">
       {/* Add Post */}
       <div className="add-post-card">
-        <h2>Add a Post</h2>
+        <h2>Create a Post</h2>
         <input
           type="text"
           value={text}
@@ -85,7 +85,7 @@ const Post = () => {
         />
         <button onClick={addPost}>Submit</button>
         <button onClick={resetPosts} className="reset-btn">
-          Reset
+          Clear all data
         </button>
       </div>
 

@@ -21,7 +21,7 @@ app.post("/events", async (req, res) => {
 
     try {
       // Emit CommentModerated event back to event bus
-      await axios.post("http://localhost:5003/events", {
+      await axios.post("http://event-bus:5003/events", {
         type: "CommentModerated",
         data: { id, postId, status },
       });
