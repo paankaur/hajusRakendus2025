@@ -26,7 +26,7 @@ app.post("/posts/:postId/comments", async (req, res) => {
   const { postId } = req.params;
   try {
     const resp = await axios.post(
-      `http://comments:5002/posts/${postId}/comments`,
+      `http://comments-srv:5002/posts/${postId}/comments`,
       req.body,
       { headers: { "Content-Type": "application/json" }, timeout: 5000 }
     );

@@ -16,10 +16,10 @@ app.post("/events", async (req, res) => {
   console.log("Received Event:", event.type);
 
   try {
-    await axios.post("http://posts:5001/events", event); // posts service
-    await axios.post("http://comments:5002/events", event); // comments service
-    await axios.post("http://query:5004/events", event); // query service
-    await axios.post("http://moderation:5005/events", event); // moderation service
+    await axios.post("http://posts-srv:5001/events", event); // posts service
+    await axios.post("http://comments-srv:5002/events", event); // comments service
+    await axios.post("http://query-srv:5004/events", event); // query service
+    await axios.post("http://moderation-srv:5005/events", event); // moderation service
   } catch (err) {
     console.error("Error broadcasting event:", err.message);
   }

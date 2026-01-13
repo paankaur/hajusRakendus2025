@@ -28,7 +28,7 @@ app.post("/posts", async (req, res) => {
 
   try {
     const resp = await axios.post(
-      "http://event-bus:5003/events", // Event Bus URL
+      "http://event-bus-srv:5003/events", // Event Bus URL
       {
         type: "PostCreated",
         data: newPost,
