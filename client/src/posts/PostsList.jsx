@@ -3,7 +3,7 @@ import "./PostsList.css";
 import CommentsList from "../comments/CommentsList";
 import CommentForm from "../comments/Comment";
 
-const API_URL = "http://localhost:5004/posts"; // use Query service
+const API_URL = "http://blog.local/posts"; // use Query service via ingress
 
 const PostsList = ({ posts, setPosts }) => {
   const addComment = async (postId, text) => {

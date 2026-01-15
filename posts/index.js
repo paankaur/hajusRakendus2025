@@ -18,7 +18,7 @@ app.get("/posts", (req, res) => {
 });
 
 // Add a new post
-app.post("/posts", async (req, res) => {
+app.post("/posts/new", async (req, res) => {
   const { text } = req.body;
   if (!text || text.trim() === "")
     return res.status(400).json({ error: "Post text is required" });
@@ -48,7 +48,7 @@ app.post("/posts", async (req, res) => {
 });
 
 app.post("/events", (req, res) => {
-  console.log("Receiiiiiiiiiiiiiiiiiiived Event:", req.body);
+  console.log("Receiiiiiiiiiiiiiived Event:", req.body);
 
   // Handle other event types if needed
 
@@ -56,7 +56,7 @@ app.post("/events", (req, res) => {
 });
 
 // Reset all posts
-app.delete("/posts", (req, res) => {
+app.delete("/posts/delete", (req, res) => {
   posts = [];
   res.json({ message: "All posts cleared" });
 });
