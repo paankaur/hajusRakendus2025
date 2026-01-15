@@ -1,21 +1,25 @@
 ---
-title: Posts guide
+title: Posts Service Guide
 ---
-## Start with following bash commands:
+## Overview
 
-## Navigate to <SwmPath>[posts/](/posts/)</SwmPath>
+The Posts service manages blog posts and emits events to the Event Bus when posts are created or deleted.
+
+## Local Development
+
+### Navigate to posts directory
 
 ```bash
 cd posts
 ```
 
-## a
+### Install dependencies
 
 ```bash
-npm i
+npm install
 ```
 
-## Start the server
+### Start the development server
 
 ```bash
 nodemon index.js
@@ -74,10 +78,10 @@ app.get("/posts", (req, res) => {
 
 ---
 
-POST method that forwards to event-bus
+POST method `/posts/new` that creates a post and forwards event to event-bus
 
 ```javascript
-app.post("/posts", async (req, res) => {
+app.post("/posts/new", async (req, res) => {
   const { text } = req.body;
   if (!text || text.trim() === "")
     return res.status(400).json({ error: "Post text is required" });
@@ -87,7 +91,7 @@ app.post("/posts", async (req, res) => {
 
   try {
     const resp = await axios.post(
-      "http://localhost:5003/events", // Event Bus URL
+      "http://event-bus-srv:5003/events", // Event Bus service in Kubernetes
       {
         type: "PostCreated",
         data: newPost,
@@ -115,10 +119,10 @@ app.post("/posts", async (req, res) => {
 
 ---
 
-DELETE method
+DELETE method `/posts/delete` to clear all posts
 
 ```javascript
-app.delete("/posts", (req, res) => {
+app.delete("/posts/delete", (req, res) => {
   posts = [];
   res.json({ message: "All posts cleared" });
 });
@@ -127,5 +131,37 @@ app.delete("/posts", (req, res) => {
 ---
 
 </SwmSnippet>
+
+## Kubernetes Deployment
+
+### Build and push Docker image
+
+```bash
+docker build -t paankaur/posts:latest ./posts
+docker push paankaur/posts:latest
+```
+
+### Deploy to Kubernetes
+
+```bash
+kubectl apply -f infra/k8s/posts-depl.yaml
+```
+
+### Service Details
+
+- **Port**: 5001
+- **Service Name**: `posts-srv`
+- **Type**: NodePort (external access on port 30001)
+- **Endpoints**:
+  - `POST /posts/new` - Create a new post
+  - `GET /posts` - Get all posts
+  - `DELETE /posts/delete` - Delete all posts
+  - `POST /events` - Receive events from Event Bus
+
+### Access via Ingress
+
+The service is accessible through the ingress at:
+- `http://blog.local/posts/new` (POST)
+- `http://blog.local/posts/delete` (DELETE)
 
 <SwmMeta version="3.0.0" repo-id="Z2l0aHViJTNBJTNBaGFqdXNSYWtlbmR1czIwMjUlM0ElM0FwYWFua2F1cg==" repo-name="hajusRakendus2025"><sup>Powered by [Swimm](https://app.swimm.io/)</sup></SwmMeta>
