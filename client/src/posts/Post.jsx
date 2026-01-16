@@ -3,8 +3,8 @@ import "./Post.css";
 import PostsList from "./PostsList";
 
 // changed: use Query service as canonical source via ingress
-const API_URL = "http://blog.local/posts";
-const POSTS_URL = "http://blog.local/posts/new";
+const API_URL = "https://blog.local/posts";
+const POSTS_URL = "https://blog.local/posts/new";
 // COMMENTS_API not needed when Query returns posts with comments
 // const COMMENTS_API = "http://localhost:5002/posts";
 
@@ -59,8 +59,8 @@ const Post = () => {
     setPosts([]); // clear frontend immediately
     try {
       await Promise.all([
-        fetch("http://blog.local/posts/delete", { method: "DELETE" }), // Posts service
-        fetch("http://blog.local/posts", { method: "DELETE" }), // Query service
+        fetch("https://blog.local/posts/delete", { method: "DELETE" }), // Posts service
+        fetch("https://blog.local/posts", { method: "DELETE" }), // Query service
       ]);
       console.log("All posts and comments cleared from backend");
     } catch (err) {

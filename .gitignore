@@ -13,6 +13,12 @@ dist
 dist-ssr
 *.local
 
+# TLS certificates and keys
+tls.crt
+tls.key
+*.pem
+*.key
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
